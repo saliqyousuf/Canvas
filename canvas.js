@@ -7,50 +7,29 @@ var drawDiagram = {
   offsetY : 0,
   selectedTool:"",
   isDown:false,
+  isErasing:false,
 };
- 
-
-
-
-
-
-
-
 
 $(document).ready(function()
 {
-
-
   init();
-
-
 
 $('.jsSelectTool').click(function()
 {
-
-
   drawDiagram.selectedTool= $(this).attr('data-value');
-
-
 });
 
-
-
-
 });
-
 
 function init()
 {
 
   var img = document.getElementById("img");
 
-
   drawDiagram.position =  {x:0,y:0,startX:0,startY:0},
   drawDiagram.canvasOffSet = $("#myCanvas").offset();
   drawDiagram.offsetX =  drawDiagram.canvasOffSet.left;
   drawDiagram.offsetY = drawDiagram.canvasOffSet.top;
-  
   
   drawDiagram.canvas = document.getElementById('myCanvas');
   drawDiagram.ctx = drawDiagram.canvas.getContext("2d");
@@ -65,24 +44,25 @@ function init()
 }
 
 
-
-
-
 function handleMouseDown(e)
 {
 
   if(drawDiagram.selectedTool == "pencil")
+  {
+  drawDiagram.isErasing=false;
   setPosition(e);
-
-
-
+  }
   else if(drawDiagram.selectedTool == "circle")
    {
     drawDiagram.position.startX = parseInt(e.clientX - drawDiagram.offsetX);
     drawDiagram.position.startY = parseInt(e.clientY - drawDiagram.offsetY);
      draw(e);
    }
- 
+ if(drawDiagram.selectedTool=="eraser")
+ {
+  drawDiagram.isErasing=true;
+  drawDiagram.isDown = true;
+ }
 
 
 }
@@ -91,22 +71,18 @@ function handleMouseDown(e)
 function handleMouseUp(e)
 {
  
-e.preventDefault();
-e.stopPropagation();
-
+//e.preventDefault();
+//e.stopPropagation();
+drawDiagram.isDown = false;
 }
 
 
 function setPosition (e)
 {
-
- 
   drawDiagram.position.x = e.clientX;
   drawDiagram.position.y = e.clientY;
   drawDiagram.position.startX = parseInt(e.clientX - drawDiagram.offsetX);
   drawDiagram.position.startY = parseInt(e.clientY - drawDiagram.offsetY);
-
-
 }
 
 
@@ -130,34 +106,26 @@ function draw(e)
         drawCircle(e);
        break;
 
+       case 'eraser':
+         eraser(e);
+         break;
+
 
   }
-
-  
-
 }
-
-
 function drawLine(e)
 {
-
-  
-  
-  
-
   drawDiagram.ctx.beginPath(); // begin
 
   drawDiagram.ctx.lineWidth = 5;
   drawDiagram.ctx.lineCap = 'round';
-  drawDiagram.ctx.strokeStyle = '#00000';
-
+  drawDiagram.ctx.strokeStyle = '#3F33FF';
+ drawDiagram.ctx.globalCompositeOperation="source-over";
   drawDiagram.ctx.moveTo(drawDiagram.position.x, drawDiagram.position.y); // from
   setPosition(e);
   drawDiagram.ctx.lineTo(drawDiagram.position.x, drawDiagram.position.y); // to
 
   drawDiagram.ctx.stroke();
-
-
 
 }
 
@@ -168,8 +136,8 @@ function drawCircle(e)
 
   drawDiagram.ctx.lineWidth = 1;
   drawDiagram.ctx.lineCap = "butt";
-  drawDiagram.ctx.strokeStyle = '#00000';
-
+  drawDiagram.ctx.strokeStyle = '#3F33FF';
+  drawDiagram.ctx.globalCompositeOperation="source-over";
 
 
 
@@ -187,6 +155,26 @@ function drawCircle(e)
   drawDiagram.ctx.stroke();
  
 }
+/* $("#myCanvas").mousedown(function() {
+  isDown = true;
+});
 
+$("#myCanvas").mouseup(function() {
+  isDown = false;  
+}); */
+function eraser(e) 
+{
+  if (drawDiagram.isDown && drawDiagram.isErasing) 
+  {
+    drawDiagram.ctx.strokeStyle = drawDiagram.ctx.strokeStyle;
+    drawDiagram.ctx.lineWidth = 15;
+    drawDiagram.ctx.lineCap = 'round';
+    drawDiagram.ctx.beginPath();
+    drawDiagram.ctx.globalCompositeOperation="destination-out";  
+      drawDiagram.ctx.moveTo(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
+      drawDiagram.ctx.lineTo(e.pageX ,e.pageY);
+      drawDiagram.ctx.stroke();     
+  } 
+}
 
 //var canv = document.getElementById('myCanvas2');    var ctx2 = canv.getContext('2d');   ctx2.putImageData(ctx.getImageData(0,0,canvas.width,canvas.height),0,0); 
