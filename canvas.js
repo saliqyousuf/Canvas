@@ -151,7 +151,7 @@ function drawCircle(e)
 
  
   drawDiagram.ctx.beginPath();
-  drawDiagram.ctx.arc(drawDiagram.mouseX, drawDiagram.mouseY, 20, 0, 2 * Math.PI);
+  drawDiagram.ctx.arc(drawDiagram.mouseX, drawDiagram.mouseY, parseInt($('.jsSelectRadius').val()), 0, 2 * Math.PI);
   drawDiagram.ctx.stroke();
  
 }

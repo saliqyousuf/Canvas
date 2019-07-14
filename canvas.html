@@ -27,11 +27,39 @@
 
 
             <div class="col-sm-2">
-                <button type="button" data-value="pencil" class="jsSelectTool"> Pencil</button>
-                <button type="button" data-value="circle" class="jsSelectTool"> Circle </button>
-                <button type="button" data-value="arrow" class="jsSelectTool">Arrow</button>
-                <button type="button" data-value="eraser" class="jsSelectTool">Eraser</button>
-            </div>
+
+                <ul class="list-group">
+                    <li class="list-group-item">    <button type="button" data-value="pencil" class="btn btn-success jsSelectTool"> Pencil</button>
+                    </li>
+                    <li class="list-group-item">
+                            <button type="button" data-value="circle" class="btn btn-success jsSelectTool"> Circle </button>
+                            Radius:
+                            <select class="jsSelectRadius">
+
+                                <option value="10">10</option>
+                                <option selected value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="40">40</option>
+                                <option value="50">50</option>
+                                <option value="60">60</option>
+                                <option value="70">70</option>
+                                <option value="80">80</option>
+                                <option  value="90">90</option>
+                                <option  value="100">100</option>
+
+                            </select>
+
+                        </li>
+                    <li class="list-group-item">
+                            <button type="button" data-value="arrow" class="btn btn-success jsSelectTool">Arrow</button>
+                        </li>
+                    <li class="list-group-item"> 
+                            <button type="button" data-value="eraser" class="btn btn-success jsSelectTool">Eraser</button>
+             
+                    </li>
+
+                </ul>
+             </div>
     </div>
       
 
