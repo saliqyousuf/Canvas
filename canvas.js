@@ -55,17 +55,26 @@ function init()
   drawDiagram.canvas = document.getElementById('myCanvas');
   drawDiagram.ctx = drawDiagram.canvas.getContext("2d");
   
-  drawDiagram.ctx.drawImage(img, 0,0);
+ // drawDiagram.ctx.drawImage(img, 0,0);
   drawDiagram.canvas.addEventListener('mousemove',draw);
   drawDiagram.canvas.addEventListener('mouseenter',setPosition);
   drawDiagram.canvas.addEventListener('mousedown',handleMouseDown);
   drawDiagram.canvas.addEventListener('mouseup',handleMouseUp);
+  drawDiagram.canvas.addEventListener('mouseout',handleMouseOut);
 
 
 }
 
 
 
+function handleMouseOut(e) {
+  if (!drawDiagram.isDown) {
+      return;
+  }
+  e.preventDefault();
+  e.stopPropagation();
+  drawDiagram.isDown = false;
+}
 
 
 function handleMouseDown(e)
@@ -78,9 +87,13 @@ function handleMouseDown(e)
 
   else if(drawDiagram.selectedTool == "circle")
    {
+
+    e.preventDefault();
+    e.stopPropagation();
     drawDiagram.position.startX = parseInt(e.clientX - drawDiagram.offsetX);
     drawDiagram.position.startY = parseInt(e.clientY - drawDiagram.offsetY);
-     draw(e);
+   drawDiagram.isDown = true;
+
    }
  
 
@@ -90,9 +103,14 @@ function handleMouseDown(e)
 
 function handleMouseUp(e)
 {
- 
+  if (!drawDiagram.isDown) {
+    return;
+}
 e.preventDefault();
 e.stopPropagation();
+
+
+drawDiagram.isDown = false; 
 
 }
 
@@ -124,6 +142,12 @@ function draw(e)
 
        case 'circle':
 
+
+      if (! drawDiagram.isDown) {
+            return;
+        }
+        e.preventDefault();
+        e.stopPropagation();
        drawDiagram.mouseX = parseInt(e.clientX - drawDiagram.offsetX);
        drawDiagram.mouseY = parseInt(e.clientY - drawDiagram.offsetY);
     
@@ -173,19 +197,25 @@ function drawCircle(e)
 
 
 
-  //drawDiagram.ctx.clearRect(drawDiagram.position.startX-1, drawDiagram.position.startY-1, drawDiagram.canvas.width, drawDiagram.canvas.height);
+drawDiagram.ctx.clearRect(drawDiagram.position.startX-1,drawDiagram.position.startY-1, drawDiagram.canvas.width/5, drawDiagram.canvas.height/5);
 
-
-// drawDiagram.ctx.moveTo(drawDiagram.position.startX, drawDiagram.position.startY + (drawDiagram.mouseY - drawDiagram.position.startY) / 2);
- // drawDiagram.ctx.bezierCurveTo(drawDiagram.position.startX, drawDiagram.position.startY, drawDiagram.mouseX, drawDiagram.position.startY, drawDiagram.mouseX, drawDiagram.position.startY + (drawDiagram.mouseY - drawDiagram.position.startY) / 2);
- // drawDiagram.ctx.bezierCurveTo(drawDiagram.mouseX, drawDiagram.mouseY, drawDiagram.position.startX, drawDiagram.mouseY, drawDiagram.position.startX, drawDiagram.position.startY + (drawDiagram.mouseY - drawDiagram.position.startY) / 2);
-  //drawDiagram.ctx.closePath();
-
- 
-  drawDiagram.ctx.beginPath();
-  drawDiagram.ctx.arc(drawDiagram.mouseX, drawDiagram.mouseY, 20, 0, 2 * Math.PI);
+drawDiagram.ctx.beginPath();
+drawDiagram.ctx.moveTo(drawDiagram.position.startX, drawDiagram.position.startY + (drawDiagram.mouseY - drawDiagram.position.startY) / 2);
+ drawDiagram.ctx.bezierCurveTo(drawDiagram.position.startX, drawDiagram.position.startY, drawDiagram.mouseX, drawDiagram.position.startY, drawDiagram.mouseX, drawDiagram.position.startY + (drawDiagram.mouseY - drawDiagram.position.startY) / 2);
+ drawDiagram.ctx.bezierCurveTo(drawDiagram.mouseX, drawDiagram.mouseY, drawDiagram.position.startX, drawDiagram.mouseY, drawDiagram.position.startX, drawDiagram.position.startY + (drawDiagram.mouseY - drawDiagram.position.startY) / 2);
+  drawDiagram.ctx.closePath();
   drawDiagram.ctx.stroke();
- 
+
+
+ // drawDiagram.ctx.stroke();
+  // drawDiagram.ctx.beginPath();
+  // drawDiagram.ctx.arc(drawDiagram.mouseX, drawDiagram.mouseY, 20, 0, 2 * Math.PI);
+  // drawDiagram.ctx.stroke();
+
+
+//  drawDiagram.ctx.beginPath();
+ // drawDiagram.ctx.arc(drawDiagram.mouseX, drawDiagram.mouseY, ( (drawDiagram.mouseX-drawDiagram.position.startX) + ( drawDiagram.mouseY-drawDiagram.position.startY)) /2, 0, 2 * Math.PI);
+
 }
 
 
