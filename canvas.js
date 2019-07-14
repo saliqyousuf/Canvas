@@ -55,7 +55,7 @@ function init()
   drawDiagram.canvas = document.getElementById('myCanvas');
   drawDiagram.ctx = drawDiagram.canvas.getContext("2d");
   
-  drawDiagram.ctx.drawImage(img, 0,0);
+  //drawDiagram.ctx.drawImage(img, 0,0);
   drawDiagram.canvas.addEventListener('mousemove',draw);
   drawDiagram.canvas.addEventListener('mouseenter',setPosition);
   drawDiagram.canvas.addEventListener('mousedown',handleMouseDown);
