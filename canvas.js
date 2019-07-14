@@ -63,7 +63,14 @@ function handleMouseDown(e)
   drawDiagram.isErasing=true;
   drawDiagram.isDown = true;
  }
+ if(drawDiagram.selectedTool=="arrow")
+ {
+  drawDiagram.isDown = true;
+  drawDiagram.ctx.beginPath();
+  drawDiagram.ctx.moveTo(drawDiagram.position.startX = (e.pageX - drawDiagram.canvas.offsetLeft),
+  drawDiagram.position.startY = (e.pageY - drawDiagram.canvas.offsetTop));
 
+ }
 
 }
 
@@ -71,8 +78,7 @@ function handleMouseDown(e)
 function handleMouseUp(e)
 {
  
-//e.preventDefault();
-//e.stopPropagation();
+
 drawDiagram.isDown = false;
 }
 
@@ -109,7 +115,10 @@ function draw(e)
        case 'eraser':
          eraser(e);
          break;
-
+       case 'arrow':
+       drawDiagram.isDown=true;
+        drawarrow(e);
+        break;
 
   }
 }
@@ -176,5 +185,17 @@ function eraser(e)
       drawDiagram.ctx.stroke();     
   } 
 }
+function drawarrow(e)
+{
+  
+    var x = e.pageX - drawDiagram.canvas.offsetLeft;
+    var y = e.pageY - drawDiagram.canvas.offsetTop;
+    //drawDiagram.ctx.clearRect(0, 0, 300, 150);
+    drawDiagram.ctx.beginPath();
+    drawDiagram.ctx.moveTo(drawDiagram.position.startX, drawDiagram.position.startY);
+    drawDiagram.ctx.lineTo(x, y);
+    drawDiagram.ctx.stroke();
+    drawDiagram.ctx.closePath();
 
+}
 //var canv = document.getElementById('myCanvas2');    var ctx2 = canv.getContext('2d');   ctx2.putImageData(ctx.getImageData(0,0,canvas.width,canvas.height),0,0); 
