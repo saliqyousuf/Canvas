@@ -80,6 +80,9 @@ function handleMouseUp(e)
  
 
 drawDiagram.isDown = false;
+
+if(drawDiagram.selectedTool == "arrow")
+        drawDiagram.ctx.stroke();
 }
 
 
@@ -194,8 +197,8 @@ function drawarrow(e)
     drawDiagram.ctx.beginPath();
     drawDiagram.ctx.moveTo(drawDiagram.position.startX, drawDiagram.position.startY);
     drawDiagram.ctx.lineTo(x, y);
-    drawDiagram.ctx.stroke();
-    drawDiagram.ctx.closePath();
+   
+   // drawDiagram.ctx.closePath();
 
 }
 //var canv = document.getElementById('myCanvas2');    var ctx2 = canv.getContext('2d');   ctx2.putImageData(ctx.getImageData(0,0,canvas.width,canvas.height),0,0); 
