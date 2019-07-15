@@ -191,6 +191,9 @@ function eraser(e)
 function drawarrow(e)
 {
   
+
+  drawDiagram.ctx.globalCompositeOperation="source-kin"; 
+  drawDiagram.ctx.strokeStyle = '#3F33FF';
     var x = e.pageX - drawDiagram.canvas.offsetLeft;
     var y = e.pageY - drawDiagram.canvas.offsetTop;
     //drawDiagram.ctx.clearRect(0, 0, 300, 150);
