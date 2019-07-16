@@ -200,7 +200,15 @@ function drawarrow(e)
     drawDiagram.ctx.beginPath();
     drawDiagram.ctx.moveTo(drawDiagram.position.startX, drawDiagram.position.startY);
     drawDiagram.ctx.lineTo(x, y);
-   
+    var headlen = 10; // length of head in pixels
+  var dx = x - drawDiagram.position.startX;
+  var dy = y - drawDiagram.position.startY;
+  var angle = Math.atan2(dy, dx);
+  drawDiagram.ctx.moveTo(drawDiagram.position.startX, drawDiagram.position.startY);
+  drawDiagram.ctx.lineTo(x, y);
+  drawDiagram.ctx.lineTo(x - headlen * Math.cos(angle - Math.PI / 6), y - headlen * Math.sin(angle - Math.PI / 6));
+  drawDiagram.ctx.moveTo(x, y);
+  drawDiagram.ctx.lineTo(x - headlen * Math.cos(angle + Math.PI / 6),y - headlen * Math.sin(angle + Math.PI / 6))
    // drawDiagram.ctx.closePath();
 
 }
